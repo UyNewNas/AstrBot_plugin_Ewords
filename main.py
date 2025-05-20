@@ -307,7 +307,7 @@ class WordPlugin(Star):
             yield event.plain_result(f"答案数量不匹配，应该有 {len(expected)} 个答案喵～")
             return
 
-        correct = sum(1 for ua, exp in zip(user_answers, expected) if ua.strip().lower() == exp.lower())
+        correct = sum(1 for ua, exp in zip(user_answers, expected) if ua.strip().lower() in exp.lower().replace(",", " ").replace(";", " ").split(" "))
         feedback = [f"{i+1}. {'正确' if ua.strip().lower() == exp.lower() else f'错误（正确答案：{exp}）'}"
                     for i, (ua, exp) in enumerate(zip(user_answers, expected))]
         reply = f"验证结果：{correct}/{len(expected)} 正确\n" + "\n".join(feedback)
